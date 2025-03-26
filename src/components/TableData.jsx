@@ -60,7 +60,7 @@ const TableData = ({ currentItems, data, currentPage, itemsPerPage, paginate, to
                     </div>
                 </div>
             </div>
-            {/* Pagination Controls */}
+
             <div className='flex justify-between items-center p-4'>
                 <div>
                     Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, data.length)} of{' '}
@@ -68,21 +68,12 @@ const TableData = ({ currentItems, data, currentPage, itemsPerPage, paginate, to
                 </div>
                 <div className='flex space-x-1'>
                     <button
-                        onClick={() => paginate(1)}
-                        disabled={currentPage === 1}
-                        className='px-3 py-1 border rounded disabled:opacity-50'
-                    >
-                        «
-                    </button>
-                    <button
                         onClick={() => paginate(currentPage - 1)}
                         disabled={currentPage === 1}
-                        className='px-3 py-1 border rounded disabled:opacity-50'
+                        className='px-3 py-1 border rounded disabled:opacity-50 hover:bg-blue-500 hover:text-white'
                     >
-                        ‹
+                        Prev
                     </button>
-
-                    {/* Page numbers - showing limited numbers for better UX */}
                     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                         let pageNum;
                         if (totalPages <= 5) {
@@ -111,16 +102,9 @@ const TableData = ({ currentItems, data, currentPage, itemsPerPage, paginate, to
                     <button
                         onClick={() => paginate(currentPage + 1)}
                         disabled={currentPage === totalPages}
-                        className='px-3 py-1 border rounded disabled:opacity-50'
+                        className='px-3 py-1 border rounded disabled:opacity-50 hover:bg-blue-500 hover:text-white'
                     >
-                        ›
-                    </button>
-                    <button
-                        onClick={() => paginate(totalPages)}
-                        disabled={currentPage === totalPages}
-                        className='px-3 py-1 border rounded disabled:opacity-50'
-                    >
-                        »
+                        Next
                     </button>
                 </div>
             </div>

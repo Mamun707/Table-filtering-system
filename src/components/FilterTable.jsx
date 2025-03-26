@@ -10,7 +10,7 @@ export default function FilterTable() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [divisions, setDivisions] = useState([]);
     const [districts, setDistricts] = useState([]);
-    const [filters, setFilters] = useState({
+    const [filtersTableData, setFiltersTableData] = useState({
         division: searchParams.get('division') || '',
         district: searchParams.get('district') || '',
         status: searchParams.get('status') || '',
@@ -31,8 +31,8 @@ export default function FilterTable() {
     }, []);
 
     const getDistrictsData = async () => {
-        if (filters.division) {
-            const districts = await getDistricts(filters.division);
+        if (filtersTableData.division) {
+            const districts = await getDistricts(filtersTableData.division);
             setDistricts(districts);
         } else {
             setDistricts([]);
@@ -41,30 +41,30 @@ export default function FilterTable() {
 
     useEffect(() => {
         getDistrictsData();
-    }, [filters.division]);
+    }, [filtersTableData.division]);
 
     const getFilterTableData = async () => {
         const params = {};
-        Object.entries(filters).forEach(([key, value]) => {
+        Object.entries(filtersTableData).forEach(([key, value]) => {
             if (value) params[key] = value;
         });
         setSearchParams(params);
 
         let todos = await getTodos(params);
 
-        if (filters.division) {
-            todos = todos.filter((item) => item.division === filters.division);
+        if (filtersTableData.division) {
+            todos = todos.filter((item) => item.division === filtersTableData.division);
         }
-        if (filters.district) {
-            todos = todos.filter((item) => item.district === filters.district);
+        if (filtersTableData.district) {
+            todos = todos.filter((item) => item.district === filtersTableData.district);
         }
-        if (filters.status) {
-            const isActive = filters.status === 'Active';
+        if (filtersTableData.status) {
+            const isActive = filtersTableData.status === 'Active';
             todos = todos.filter((item) => item.completed === isActive);
         }
-        if (filters.keywords) {
+        if (filtersTableData.keywords) {
             todos = todos.filter((item) =>
-                item.title.toLowerCase().includes(filters.keywords.toLowerCase())
+                item.title.toLowerCase().includes(filtersTableData.keywords.toLowerCase())
             );
         }
 
@@ -74,17 +74,16 @@ export default function FilterTable() {
 
     useEffect(() => {
         getFilterTableData();
-    }, [filters]);
+    }, [filtersTableData]);
 
     const handleFilterChange = (e) => {
-        setFilters({ ...filters, [e.target.name]: e.target.value });
+        setFiltersTableData({ ...filtersTableData, [e.target.name]: e.target.value });
     };
 
     const handleReset = () => {
-        setFilters({ division: '', district: '', status: '', keywords: '' });
+        setFiltersTableData({ division: '', district: '', status: '', keywords: '' });
     };
 
-    // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = tableData.slice(indexOfFirstItem, indexOfLastItem);
@@ -97,7 +96,7 @@ export default function FilterTable() {
             <div className='font-medium text-3xl pb-6'>Table Filtering System</div>
 
             <Filter
-                filters={filters}
+                filters={filtersTableData}
                 divisions={divisions}
                 districts={districts}
                 handleFilterChange={handleFilterChange}

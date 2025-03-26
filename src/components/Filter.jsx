@@ -130,7 +130,7 @@ const Filter = ({ filters, divisions, districts, handleFilterChange, handleReset
             <div className='mt-4 text-right'>
                 <button
                     onClick={handleReset}
-                    className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700'
+                    className='px-4 py-2 text-slate-700 text-sm border border-slate-200 rounded hover:text-white hover:bg-blue-600'
                 >
                     Reset
                 </button>
